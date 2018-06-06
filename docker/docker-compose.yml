@@ -1,0 +1,14 @@
+version: '3'
+services:
+  multilib:
+    # will build ./default/Dockerfile
+    build: linux/multilib
+    image: registry.gitlab.com/monoclecam/gateway/live555/linux:multilib2
+  arm:
+    # will build ./arm/Dockerfile
+    build: linux/arm
+    image: registry.gitlab.com/monoclecam/gateway/live555/linux:arm2
+  rpi:
+    # will build ./rpi/Dockerfile
+    build: linux/rpi
+    image: registry.gitlab.com/monoclecam/gateway/live555/linux:rpi2

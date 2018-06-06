@@ -1,0 +1,168 @@
+# *********************************************************************
+#              __  __  ___  _  _  ___   ___ _    ___
+#             |  \/  |/ _ \| \| |/ _ \ / __| |  | __|
+#             | |\/| | (_) | .` | (_) | (__| |__| _|
+#             |_|  |_|\___/|_|\_|\___/ \___|____|___|
+#
+#  -------------------------------------------------------------------
+#             MONOCLE PROXY GITLAB-CI BUILD CONFIGURATION
+#         COPYRIGHT SHADEBLUE, LLC @ 2018, ALL RIGHTS RESERVED
+#  -------------------------------------------------------------------
+#
+# *********************************************************************
+
+# USE OUR CUSTOM DEFAULT DOCKER IMAGE TO PERFORM BUILD TASKS FOR
+# THE VARIOUS LINUX BUILDS.  THIS IMAGE INCLUDES SUPPORT
+# FOR JAVA (JDK 8) and APACHE MAVEN (v3.5.3)
+image: alpine:latest
+
+# CONTINUOUS INTEGRATION STAGES
+stages:
+  - build
+  - test
+  - deploy
+  - beta
+  - production
+
+# BUILD FOR:
+#  - LINUX on INTEL x86-64 (64-bit)
+# (perform build on custom tagged project docker image that includes multilib for compiling 64-bit binaries)
+linux:x64:
+  stage: build
+  image: registry.gitlab.com/monoclecam/gateway/live555/linux:multilib2
+  script:
+    - bin/build-linux-x64.sh
+  tags:
+    - docker
+  artifacts:
+    paths:
+      - dist/*.tar.gz
+
+# BUILD FOR:
+#  - LINUX on INTEL x86 (32-bit)
+# (perform build on custom tagged project docker image that includes multilib for compiling 32-bit binaries)
+linux:x86:
+  stage: build
+  image: registry.gitlab.com/monoclecam/gateway/live555/linux:multilib2
+  script:
+    - bin/build-linux-x86.sh
+  tags:
+    - docker
+  artifacts:
+    paths:
+      - dist/*.tar.gz
+
+# BUILD FOR:
+#  - LINUX on ARM v7 (32-bit) Hard-Float
+# (perform build on custom tagged project docker image that includes cross-compiling support for ARM 64-bit binaries and ARM 32-bit binaries)
+linux:armhf:
+  stage: build
+  image: registry.gitlab.com/monoclecam/gateway/live555/linux:arm2
+  script:
+    - bin/build-linux-armhf.sh
+  tags:
+    - armhf
+  artifacts:
+    paths:
+      - dist/*.tar.gz
+
+# BUILD FOR:
+#  - LINUX on ARM v8 (64-bit)
+# (perform build on custom tagged project docker image that includes cross-compiling support for ARM 64-bit binaries and ARM 32-bit binaries)
+linux:arm64:
+  stage: build
+  image: registry.gitlab.com/monoclecam/gateway/live555/linux:arm2
+  script:
+    - bin/build-linux-aarch64.sh
+  tags:
+    - aarch64
+  artifacts:
+    paths:
+      - dist/*.tar.gz
+
+# BUILD FOR:
+#  - LINUX on RaspberryPi <ARMv6> (32-bit Hard-float) RPi3B, RPi3B+
+#  - LINUX on RaspberryPi <ARMv7> (32-bit Hard-float) RPi2B, RPiA+, RPiB+, RPiZero, RPiZeroW, RPiZeroWH
+# (perform build on custom tagged project docker image that includes cross-compiling support for RaspberryPi 32-bit hard-float binaries)
+linux:rpi:
+  stage: build
+  image: registry.gitlab.com/monoclecam/gateway/live555/linux:rpi2
+  script:
+    - bin/build-linux-rpi.sh
+  tags:
+    - rpi
+  artifacts:
+    paths:
+      - dist/*.tar.gz
+
+# BUILD FOR: APPLE OSX on INTEL x64 (64-bit)
+# (custom tags for gitlab build runner to perform build on OSX system)
+osx:x64:
+  stage: build
+  script:
+    - pwd
+    - ls -la
+    - bin/build-osx-x64.sh
+  tags:
+    - osx
+    - x64
+  artifacts:
+    paths:
+      - dist/*.tar.gz
+
+# BUILD FOR: WINDOWS on INTEL x86-64 (32-bit)
+# (custom tags for gitlab build runner to perform build on Windows system)
+windows:x86:
+  stage: build
+  script:
+    - dir
+    - cmd /Q /C bin\build-windows-x86.cmd
+  tags:
+    - windows
+    - x86
+  artifacts:
+    paths:
+      - dist/*.exe
+
+# DEPLOY TO STAGING WEB SERVER & WEB UPDATE INFRASTRUCTURE
+staging:
+  stage: deploy
+  script:
+    - echo "Deploy to staging environment"
+    - bin/deploy-osx-x64.sh
+  environment:
+    name: staging
+    url: https://monoclecam.com
+  artifacts:
+    paths:
+      - dist/*.*
+
+# DEPLOY TO BETA WEB SERVER & WEB UPDATE INFRASTRUCTURE
+beta:
+  stage: beta
+  dependencies:
+    - staging
+  script:
+    - echo "Deploy to beta environment"
+  environment:
+    name: beta
+    url: https://monoclecam.com
+  artifacts:
+    paths:
+      - dist/*.*
+  when: manual
+
+# DEPLOY TO PRODUCTION WEB SERVER & WEB UPDATE INFRASTRUCTURE
+production:
+  stage: production
+  dependencies:
+    - beta
+  script:
+    - echo "Deploy to production environment"
+  environment:
+    name: production
+    url: https://monoclecam.com
+  artifacts:
+    paths:
+      - dist/*.*
+  when: manual
