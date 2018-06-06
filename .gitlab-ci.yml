@@ -125,44 +125,44 @@ windows:x86:
       - dist/*.exe
 
 # DEPLOY TO STAGING WEB SERVER & WEB UPDATE INFRASTRUCTURE
-staging:
-  stage: deploy
-  script:
-    - echo "Deploy to staging environment"
-    - bin/deploy-osx-x64.sh
-  environment:
-    name: staging
-    url: https://monoclecam.com
-  artifacts:
-    paths:
-      - dist/*.*
+#staging:
+#  stage: deploy
+#  script:
+#    - echo "Deploy to staging environment"
+#    - bin/deploy-osx-x64.sh
+#  environment:
+#    name: staging
+#    url: https://monoclecam.com
+#  artifacts:
+#    paths:
+#      - dist/*.*
 
 # DEPLOY TO BETA WEB SERVER & WEB UPDATE INFRASTRUCTURE
-beta:
-  stage: beta
-  dependencies:
-    - staging
-  script:
-    - echo "Deploy to beta environment"
-  environment:
-    name: beta
-    url: https://monoclecam.com
-  artifacts:
-    paths:
-      - dist/*.*
-  when: manual
+#beta:
+#  stage: beta
+#  dependencies:
+#    - staging
+#  script:
+#    - echo "Deploy to beta environment"
+#  environment:
+#    name: beta
+#    url: https://monoclecam.com
+#  artifacts:
+#    paths:
+#      - dist/*.*
+#  when: manual
 
 # DEPLOY TO PRODUCTION WEB SERVER & WEB UPDATE INFRASTRUCTURE
-production:
-  stage: production
-  dependencies:
-    - beta
-  script:
-    - echo "Deploy to production environment"
-  environment:
-    name: production
-    url: https://monoclecam.com
-  artifacts:
-    paths:
-      - dist/*.*
-  when: manual
+#production:
+#  stage: production
+#  dependencies:
+#    - beta
+#  script:
+#    - echo "Deploy to production environment"
+#  environment:
+#    name: production
+#    url: https://monoclecam.com
+#  artifacts:
+#    paths:
+#      - dist/*.*
+#  when: manual
