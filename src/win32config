@@ -19,8 +19,8 @@ UI_OPTS =		$(guilflags) $(guilibsdll)
 CONSOLE_UI_OPTS =		$(conlflags) $(conlibsdll)
 CPU=i386
 
-TOOLS32	=		c:\Program Files\DevStudio\Vc
-COMPILE_OPTS =		$(INCLUDES) $(cdebug) $(cflags) $(cvarsdll) -I. -I"$(TOOLS32)\include"
+TOOLS32 =               $(VCINSTALLDIR)
+COMPILE_OPTS =		$(INCLUDES) $(cdebug) $(cflags) $(cvarsdll) -I. -I"$(TOOLS32)\include" -DALLOW_RTSP_SERVER_PORT_REUSE=1
 C =			c
 C_COMPILER =		"$(TOOLS32)\bin\cl"
 C_FLAGS =		$(COMPILE_OPTS)
@@ -30,7 +30,7 @@ CPLUSPLUS_FLAGS =	$(COMPILE_OPTS)
 OBJ =			obj
 LINK =			$(link) -out:
 LIBRARY_LINK =		lib -out:
-LINK_OPTS_0 =		$(linkdebug) msvcirt.lib
+LINK_OPTS_0 =		$(linkdebug) msvcrt.lib
 LIBRARY_LINK_OPTS =	
 LINK_OPTS =		$(LINK_OPTS_0) $(UI_OPTS)
 CONSOLE_LINK_OPTS =	$(LINK_OPTS_0) $(CONSOLE_UI_OPTS)

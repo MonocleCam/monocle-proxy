@@ -198,7 +198,8 @@ Boolean RTSPServer::weImplementREGISTER(char const* /*cmd*//*"REGISTER" or "DERE
 
 void RTSPServer::implementCmd_REGISTER(char const* /*cmd*//*"REGISTER" or "DEREGISTER"*/,
 				       char const* /*url*/, char const* /*urlSuffix*/, int /*socketToRemoteServer*/,
-				       Boolean /*deliverViaTCP*/, char const* /*proxyURLSuffix*/) {
+				       Boolean /*deliverViaTCP*/, char const* /*proxyURLSuffix*/,
+				       char const* /*proxyUsername*/, char const* /*proxyPassword*/) {
   // By default, this function is a 'noop'
 }
 
@@ -207,13 +208,16 @@ void RTSPServer::implementCmd_REGISTER(char const* /*cmd*//*"REGISTER" or "DEREG
 RTSPServer::RTSPClientConnection::ParamsForREGISTER
 ::ParamsForREGISTER(char const* cmd/*"REGISTER" or "DEREGISTER"*/,
 		    RTSPServer::RTSPClientConnection* ourConnection, char const* url, char const* urlSuffix,
-		    Boolean reuseConnection, Boolean deliverViaTCP, char const* proxyURLSuffix)
+		    Boolean reuseConnection, Boolean deliverViaTCP, char const* proxyURLSuffix,
+		    char const* proxyUsername, char const* proxyPassword)
   : fCmd(strDup(cmd)), fOurConnection(ourConnection), fURL(strDup(url)), fURLSuffix(strDup(urlSuffix)),
-    fReuseConnection(reuseConnection), fDeliverViaTCP(deliverViaTCP), fProxyURLSuffix(strDup(proxyURLSuffix)) {
+    fReuseConnection(reuseConnection), fDeliverViaTCP(deliverViaTCP), fProxyURLSuffix(strDup(proxyURLSuffix)),
+    fProxyUsername(strDup(proxyUsername)), fProxyPassword(strDup(proxyPassword)) {
 }
 
 RTSPServer::RTSPClientConnection::ParamsForREGISTER::~ParamsForREGISTER() {
-  delete[] (char*)fCmd; delete[] fURL; delete[] fURLSuffix; delete[] fProxyURLSuffix;
+  delete[] (char*)fCmd; delete[] fURL; delete[] fURLSuffix; delete[] fProxyURLSuffix,
+  delete[] fProxyUsername, delete[] fProxyPassword;
 }
 
 #define DELAY_USECS_AFTER_REGISTER_RESPONSE 100000 /*100ms*/
@@ -221,7 +225,8 @@ RTSPServer::RTSPClientConnection::ParamsForREGISTER::~ParamsForREGISTER() {
 void RTSPServer
 ::RTSPClientConnection::handleCmd_REGISTER(char const* cmd/*"REGISTER" or "DEREGISTER"*/,
 					   char const* url, char const* urlSuffix, char const* fullRequestStr,
-					   Boolean reuseConnection, Boolean deliverViaTCP, char const* proxyURLSuffix) {
+					   Boolean reuseConnection, Boolean deliverViaTCP, char const* proxyURLSuffix,
+					   char const* proxyUsername, char const* proxyPassword){
   char* responseStr;
   if (fOurRTSPServer.weImplementREGISTER(cmd, proxyURLSuffix, responseStr)) {
     // The "REGISTER"/"DEREGISTER" command - if we implement it - may require access control:
@@ -237,7 +242,8 @@ void RTSPServer
     setRTSPResponse(responseStr == NULL ? "200 OK" : responseStr);
     delete[] responseStr;
     
-    ParamsForREGISTER* registerParams = new ParamsForREGISTER(cmd, this, url, urlSuffix, reuseConnection, deliverViaTCP, proxyURLSuffix);
+    ParamsForREGISTER* registerParams = new ParamsForREGISTER(cmd, this, url, urlSuffix, reuseConnection,
+        deliverViaTCP, proxyURLSuffix, proxyUsername, proxyPassword);
     envir().taskScheduler().scheduleDelayedTask(reuseConnection ? DELAY_USECS_AFTER_REGISTER_RESPONSE : 0,
 						(TaskFunc*)continueHandlingREGISTER, registerParams);
   } else if (responseStr != NULL) {
@@ -252,12 +258,16 @@ void RTSPServer
 void parseTransportHeaderForREGISTER(char const* buf,
 				     Boolean &reuseConnection,
 				     Boolean& deliverViaTCP,
-				     char*& proxyURLSuffix) {
+				     char*& proxyURLSuffix,
+				     char*& proxyUsername,
+				     char*& proxyPassword) {
   // Initialize the result parameters to default values:
   reuseConnection = False;
   deliverViaTCP = False;
   proxyURLSuffix = NULL;
-  
+  proxyUsername = NULL;
+  proxyPassword = NULL;
+
   // First, find "Transport:"
   while (1) {
     if (*buf == '\0') return; // not found
@@ -280,6 +290,12 @@ void parseTransportHeaderForREGISTER(char const* buf,
     } else if (_strncasecmp(field, "proxy_url_suffix=", 17) == 0) {
       delete[] proxyURLSuffix;
       proxyURLSuffix = strDup(field+17);
+    } else if (_strncasecmp(field, "username=", 9) == 0) {
+      delete[] proxyUsername;
+      proxyUsername = strDup(field+9);
+    } else if (_strncasecmp(field, "password=", 9) == 0) {
+      delete[] proxyPassword;
+      proxyPassword = strDup(field+9);
     }
     
     fields += strlen(field);
@@ -309,7 +325,8 @@ void RTSPServer::RTSPClientConnection::continueHandlingREGISTER1(ParamsForREGIST
   
   ourServer->implementCmd_REGISTER(params->fCmd,
 				   params->fURL, params->fURLSuffix, socketNumToBackEndServer,
-				   params->fDeliverViaTCP, params->fProxyURLSuffix);
+				   params->fDeliverViaTCP, params->fProxyURLSuffix,
+				   params->fProxyUsername, params->fProxyPassword);
   delete params;
 }
 
@@ -380,7 +397,8 @@ Boolean RTSPServerWithREGISTERProxying
 void RTSPServerWithREGISTERProxying
 ::implementCmd_REGISTER(char const* cmd/*"REGISTER" or "DEREGISTER"*/,
 			char const* url, char const* /*urlSuffix*/, int socketToRemoteServer,
-			Boolean deliverViaTCP, char const* proxyURLSuffix) {
+			Boolean deliverViaTCP, char const* proxyURLSuffix,
+			char const* proxyUsername, char const* proxyPassword) {
   // Continue setting up proxying for the specified URL.
   // By default:
   //    - We use "registeredProxyStream-N" as the (front-end) stream name (ignoring the back-end stream's 'urlSuffix'),
@@ -406,7 +424,8 @@ void RTSPServerWithREGISTERProxying
 
     ServerMediaSession* sms
       = ProxyServerMediaSession::createNew(envir(), this, url, proxyStreamName,
-					   fBackEndUsername, fBackEndPassword,
+					   (proxyUsername != NULL) ? proxyUsername : fBackEndUsername,
+					   (proxyPassword != NULL) ? proxyPassword : fBackEndPassword,
 					   tunnelOverHTTPPortNum, fVerbosityLevelForProxying, socketToRemoteServer);
     addServerMediaSession(sms);
   
@@ -416,7 +435,13 @@ void RTSPServerWithREGISTERProxying
     envir() << "\tPlay this stream using the URL: " << proxyStreamURL << "\n";
     delete[] proxyStreamURL;
   } else { // "DEREGISTER"
-    deleteServerMediaSession(lookupServerMediaSession(proxyStreamName));
+    ServerMediaSession* sms = lookupServerMediaSession(proxyStreamName);
+    if(sms != NULL){
+        char* proxyStreamURL = rtspURL(sms);
+        envir() << "Removing the registered back-end stream \"" << url << "\".\n";
+        envir() << "\tThis stream using the URL is no longer valid: " << proxyStreamURL << "\n";
+        deleteServerMediaSession(sms);
+    }
   }
 }
 

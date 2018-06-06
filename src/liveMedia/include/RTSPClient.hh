@@ -382,7 +382,8 @@ protected: // redefined virtual functions
       // redefined to return True (for cmd=="REGISTER")
   virtual void implementCmd_REGISTER(char const* cmd/*"REGISTER" or "DEREGISTER"*/,
 				     char const* url, char const* urlSuffix, int socketToRemoteServer,
-				     Boolean deliverViaTCP, char const* proxyURLSuffix);
+				     Boolean deliverViaTCP, char const* proxyURLSuffix,
+				     char const* proxyUsername, char const* proxyPassword);
 
 private:
   onRTSPClientCreationFunc* fCreationFunc;

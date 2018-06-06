@@ -473,7 +473,7 @@ Boolean RTSPServer::RTSPClientConnection::parseHTTPRequestString(char* resultCmd
   unsigned n = 0;
   while (++j <= k) urlSuffix[n++] = reqStr[j];
   urlSuffix[n] = '\0';
-  
+
   // Look for various headers that we're interested in:
   lookForHeader("x-sessioncookie", &reqStr[i], reqStrSize-i, sessionCookie, sessionCookieMaxSize);
   lookForHeader("Accept", &reqStr[i], reqStrSize-i, acceptStr, acceptStrMaxSize);
@@ -795,9 +795,10 @@ void RTSPServer::RTSPClientConnection::handleRequestBytes(int newBytesRead) {
 	  // Check for special command-specific parameters in a "Transport:" header:
 	  Boolean reuseConnection, deliverViaTCP;
 	  char* proxyURLSuffix;
-	  parseTransportHeaderForREGISTER((const char*)fRequestBuffer, reuseConnection, deliverViaTCP, proxyURLSuffix);
-
-	  handleCmd_REGISTER(cmdName, url, urlSuffix, (char const*)fRequestBuffer, reuseConnection, deliverViaTCP, proxyURLSuffix);
+	  char* proxyUsername;
+	  char* proxyPassword;
+	  parseTransportHeaderForREGISTER((const char*)fRequestBuffer, reuseConnection, deliverViaTCP, proxyURLSuffix, proxyUsername, proxyPassword);
+	  handleCmd_REGISTER(cmdName, url, urlSuffix, (char const*)fRequestBuffer, reuseConnection, deliverViaTCP, proxyURLSuffix, proxyUsername, proxyPassword);
 	  delete[] proxyURLSuffix;
 	} else {
 	  handleCmd_bad();
@@ -931,7 +932,7 @@ static Boolean parseAuthorizationHeader(char const* buf,
     } else if (strcmp(parameter, "response") == 0) {
       response = strDup(value);
     }
-    
+
     fields += strlen(parameter) + 2 /*="*/ + strlen(value) + 1 /*"*/;
     while (*fields == ',' || *fields == ' ') ++fields;
         // skip over any separating ',' and ' ' chars

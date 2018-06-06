@@ -3,25 +3,27 @@ SETLOCAL
 for %%I in (%0) do %%~dI
 for %%I in (%0) do cd "%%~pI"
 cd liveMedia
-del /Q liveMedia.mak
+del /Q liveMedia.mak 2>nul
 type Makefile.head ..\win32config Makefile.tail > liveMedia.mak
 cd ../groupsock
-del /Q groupsock.mak
+del /Q groupsock.mak 2>nul
 type Makefile.head ..\win32config Makefile.tail > groupsock.mak
 cd ../UsageEnvironment
-del /Q UsageEnvironment.mak
+del /Q UsageEnvironment.mak 2>nul
 type Makefile.head ..\win32config Makefile.tail > UsageEnvironment.mak
 cd ../BasicUsageEnvironment
-del /Q BasicUsageEnvironment.mak
+del /Q BasicUsageEnvironment.mak 2>nul
 type Makefile.head ..\win32config Makefile.tail > BasicUsageEnvironment.mak
 cd ../testProgs
-del /Q testProgs.mak
+del /Q testProgs.mak 2>nul
 type Makefile.head ..\win32config Makefile.tail > testProgs.mak
 cd ../mediaServer
-del /Q mediaServer.mak
+del /Q mediaServer.mak 2>nul
 type Makefile.head ..\win32config Makefile.tail > mediaServer.mak
 cd ../proxyServer
-del /Q proxyServer.mak
+del /Q proxyServer.mak 2>nul
 type Makefile.head ..\win32config Makefile.tail > proxyServer.mak
-
+cd ../monocle-proxy
+del /Q monocle-proxy.mak 2>nul
+type Makefile.head ..\win32config Makefile.tail > monocle-proxy.mak
 ENDLOCAL

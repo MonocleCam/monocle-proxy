@@ -34,3 +34,8 @@ cd ../proxyServer
 /bin/rm -f proxyServer.mak
 /bin/rm -f Makefile
 cat Makefile.head ../win32config Makefile.tail > proxyServer.mak
+
+cd ../monocle-proxy
+/bin/rm -f monocle-proxy.mak
+/bin/rm -f Makefile
+cat Makefile.head ../win32config Makefile.tail > monocle-proxy.mak
