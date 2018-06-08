@@ -42,6 +42,9 @@ echo "SCRIPTS DIR        : %MONOCLE_SCRIPTS_DIRECTORY%"
 echo "TARGET DIR         : %MONOCLE_TARGET_DIRECTORY%"
 echo "SOURCE  DIR        : %MONOCLE_SOURCE_DIRECTORY%"
 echo "DIST DIR           : %MONOCLE_DIST_DIRECTORY%"
+echo "COMPANY            : %COMPANY_NAME%"
+echo "PROJECT NAME       : %MONOCLE_PROJECT_NAME%"
+echo "PROJECT DESC       : %MONOCLE_PROJECT_DESCRIPTION%"
 echo "PROJECT VERSION    : %MONOCLE_PROJECT_VERSION%"
 echo "PROJECT COPYRIGHT  : %MONOCLE_PROJECT_COPYRIGHT%"
 echo "********************************************************************************************"
@@ -119,14 +122,14 @@ echo ************************************
 rcedit-x86.exe  ^
      %MONOCLE_TARGET_DIRECTORY%\monocle-proxy\monocle-proxy.exe    ^
      --set-icon "%MONOCLE_SCRIPTS_DIRECTORY%\monocle.ico"          ^
-     --set-product-version "%MONOCLE_PROJECT_VERSION%"             ^
-     --set-file-version "%MONOCLE_PROJECT_VERSION%"                ^
+     --set-product-version %MONOCLE_PROJECT_VERSION%               ^
+     --set-file-version %MONOCLE_PROJECT_VERSION%                  ^
      --set-version-string "CompanyName" %COMPANY_NAME%             ^
-     --set-version-string "ProductName" "%MONOCLE_PROJECT_NAME%"   ^
-     --set-version-string "FileDescription" "%MONOCLE_PROJECT_DESCRIPTION%" ^
+     --set-version-string "ProductName" %MONOCLE_PROJECT_NAME%     ^
+     --set-version-string "FileDescription" %MONOCLE_PROJECT_DESCRIPTION% ^
      --set-version-string "OriginalFilename" "monocle-proxy.exe"   ^
      --set-version-string "InternalName" "monocle-proxy"           ^
-     --set-version-string "LegalCopyright" "%MONOCLE_PROJECT_COPYRIGHT%"
+     --set-version-string "LegalCopyright" %MONOCLE_PROJECT_COPYRIGHT%
 
 echo ""
 echo ""
