@@ -23,9 +23,9 @@ SET MONOCLE_OS="windows"
 SET MONOCLE_PLATFORM="x86"
 SET MONOCLE_ARCH="x86"
 
-SET COMPANY_NAME="shadeBlue, LLC"
-SET MONOCLE_PROJECT_NAME="Monocle Proxy (x86)"
-SET MONOCLE_PROJECT_DESCRIPTION="Monocle Proxy Service (Windows x86)"
+SET COMPANY_NAME=shadeBlue, LLC
+SET MONOCLE_PROJECT_NAME=Monocle Proxy (x86)
+SET MONOCLE_PROJECT_DESCRIPTION=Monocle Proxy Service (Windows x86)
 SET /p MONOCLE_PROJECT_VERSION=<%MONOCLE_PROJECT_DIRECTORY%\VERSION
 SET /p MONOCLE_PROJECT_COPYRIGHT=<%MONOCLE_PROJECT_DIRECTORY%\COPYRIGHT
 
@@ -122,14 +122,14 @@ echo ************************************
 rcedit-x86.exe  ^
      %MONOCLE_TARGET_DIRECTORY%\monocle-proxy\monocle-proxy.exe    ^
      --set-icon "%MONOCLE_SCRIPTS_DIRECTORY%\monocle.ico"          ^
-     --set-product-version %MONOCLE_PROJECT_VERSION%               ^
-     --set-file-version %MONOCLE_PROJECT_VERSION%                  ^
-     --set-version-string "CompanyName" %COMPANY_NAME%             ^
-     --set-version-string "ProductName" %MONOCLE_PROJECT_NAME%     ^
-     --set-version-string "FileDescription" %MONOCLE_PROJECT_DESCRIPTION% ^
+     --set-product-version "%MONOCLE_PROJECT_VERSION%"             ^
+     --set-file-version "%MONOCLE_PROJECT_VERSION%"                ^
+     --set-version-string "CompanyName" "%COMPANY_NAME%"           ^
+     --set-version-string "ProductName" "%MONOCLE_PROJECT_NAME%"   ^
+     --set-version-string "FileDescription" "%MONOCLE_PROJECT_DESCRIPTION%" ^
      --set-version-string "OriginalFilename" "monocle-proxy.exe"   ^
      --set-version-string "InternalName" "monocle-proxy"           ^
-     --set-version-string "LegalCopyright" %MONOCLE_PROJECT_COPYRIGHT%
+     --set-version-string "LegalCopyright" "%MONOCLE_PROJECT_COPYRIGHT%" || EXIT /B 1
 
 echo ""
 echo ""
