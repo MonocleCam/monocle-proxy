@@ -23,6 +23,8 @@ SET MONOCLE_OS="windows"
 SET MONOCLE_PLATFORM="x86"
 SET MONOCLE_ARCH="x86"
 
+SET APP_VERSION="0.0.1"
+
 echo ""
 echo ""
 echo "********************************************************************************************"
@@ -106,12 +108,31 @@ nmake -f monocle-proxy.mak clean all                       || EXIT /B 1
 echo ""
 echo ""
 echo ************************************
+echo UPDATE MONOCLE-PROXY RESOURCES
+echo ************************************
+
+rcedit-x86.exe  \
+     %MONOCLE_TARGET_DIRECTORY%\monocle-proxy\monocle-proxy.exe    \
+     --set-icon "%MONOCLE_SCRIPTS_DIRECTORY%\monocle.ico"          \
+     --set-product-version "%APP_VERSION%"                         \
+     --set-file-version "%APP_VERSION%"                            \
+     --set-version-string "CompanyName" "shadeBlue, LLC"           \
+     --set-version-string "ProductName" "Monocle Proxy (x86)"    \
+     --set-version-string "FileDescription" "Monocle Proxy Service (Windows x86)" \
+     --set-version-string "OriginalFilename" "monocle-proxy.exe" \
+     --set-version-string "InternalName" "monocle-gateway"         \
+     --set-version-string "LegalCopyright" "© 2018 shadeBlue, LLC" \
+
+echo ""
+echo ""
+echo ************************************
 echo COPY FILES TO FINAL DISTRIBUTION LOCATION
 echo ************************************
 mkdir %MONOCLE_DIST_DIRECTORY%                             || EXIT /B 1
 copy %MONOCLE_TARGET_DIRECTORY%\proxyServer\live555ProxyServer.exe %MONOCLE_DIST_DIRECTORY%\live555ProxyServer-windows-x86.exe || EXIT /B 1
 copy %MONOCLE_TARGET_DIRECTORY%\testProgs\openRTSP.exe %MONOCLE_DIST_DIRECTORY%\openRTSP-windows-x86.exe                       || EXIT /B 1
 copy %MONOCLE_TARGET_DIRECTORY%\monocle-proxy\monocle-proxy.exe %MONOCLE_DIST_DIRECTORY%\monocle-proxy-windows-x86.exe         || EXIT /B 1
+
 
 echo ""
 echo ""
