@@ -121,7 +121,7 @@ rcedit-x86.exe  ^
      --set-icon "%MONOCLE_SCRIPTS_DIRECTORY%\monocle.ico"          ^
      --set-product-version "%MONOCLE_PROJECT_VERSION%"             ^
      --set-file-version "%MONOCLE_PROJECT_VERSION%"                ^
-     --set-version-string "CompanyName" "%COMPANY_NAME%"           ^
+     --set-version-string "CompanyName" %COMPANY_NAME%             ^
      --set-version-string "ProductName" "%MONOCLE_PROJECT_NAME%"   ^
      --set-version-string "FileDescription" "%MONOCLE_PROJECT_DESCRIPTION%" ^
      --set-version-string "OriginalFilename" "monocle-proxy.exe"   ^
