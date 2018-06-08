@@ -23,7 +23,8 @@ SET MONOCLE_OS="windows"
 SET MONOCLE_PLATFORM="x86"
 SET MONOCLE_ARCH="x86"
 
-SET APP_VERSION="0.0.1"
+SET /p MONOCLE_PROJECT_VERSION=<%MONOCLE_PROJECT_DIRECTORY%\VERSION
+SET /p MONOCLE_PROJECT_COPYRIGHT=<%MONOCLE_PROJECT_DIRECTORY%\COPYRIGHT
 
 echo ""
 echo ""
@@ -38,6 +39,8 @@ echo "SCRIPTS DIR        : %MONOCLE_SCRIPTS_DIRECTORY%"
 echo "TARGET DIR         : %MONOCLE_TARGET_DIRECTORY%"
 echo "SOURCE  DIR        : %MONOCLE_SOURCE_DIRECTORY%"
 echo "DIST DIR           : %MONOCLE_DIST_DIRECTORY%"
+echo "PROJECT VERSION    : %MONOCLE_PROJECT_VERSION%"
+echo "PROJECT COPYRIGHT  : %MONOCLE_PROJECT_COPYRIGHT%"
 echo "********************************************************************************************"
 
 echo ""
@@ -111,17 +114,17 @@ echo ************************************
 echo UPDATE MONOCLE-PROXY RESOURCES
 echo ************************************
 
-rcedit-x86.exe  \
-     %MONOCLE_TARGET_DIRECTORY%\monocle-proxy\monocle-proxy.exe    \
-     --set-icon "%MONOCLE_SCRIPTS_DIRECTORY%\monocle.ico"          \
-     --set-product-version "%APP_VERSION%"                         \
-     --set-file-version "%APP_VERSION%"                            \
-     --set-version-string "CompanyName" "shadeBlue, LLC"           \
-     --set-version-string "ProductName" "Monocle Proxy (x86)"    \
-     --set-version-string "FileDescription" "Monocle Proxy Service (Windows x86)" \
-     --set-version-string "OriginalFilename" "monocle-proxy.exe" \
-     --set-version-string "InternalName" "monocle-gateway"         \
-     --set-version-string "LegalCopyright" "© 2018 shadeBlue, LLC" \
+rcedit-x86.exe  ^
+     %MONOCLE_TARGET_DIRECTORY%\monocle-proxy\monocle-proxy.exe    ^
+     --set-icon "%MONOCLE_SCRIPTS_DIRECTORY%\monocle.ico"          ^
+     --set-product-version "%MONOCLE_PROJECT_VERSION%"             ^
+     --set-file-version "%MONOCLE_PROJECT_VERSION%"                ^
+     --set-version-string "CompanyName" "shadeBlue, LLC"           ^
+     --set-version-string "ProductName" "Monocle Proxy (x86)"      ^
+     --set-version-string "FileDescription" "Monocle Proxy Service (Windows x86)" ^
+     --set-version-string "OriginalFilename" "monocle-proxy.exe"   ^
+     --set-version-string "InternalName" "monocle-gateway"         ^
+     --set-version-string "LegalCopyright" "%MONOCLE_PROJECT_COPYRIGHT%"
 
 echo ""
 echo ""
