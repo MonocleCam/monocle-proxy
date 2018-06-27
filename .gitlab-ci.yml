@@ -73,7 +73,7 @@ linux:arm64:
   stage: build
   image: registry.gitlab.com/monoclecam/gateway/live555/linux:arm2
   script:
-    - bin/build-linux-aarch64.sh
+    - bin/build-linux-arm64.sh
   tags:
     - aarch64
   artifacts:

@@ -17,7 +17,7 @@
 # --------------------------------------
 export LIVE555_BUILD_PLATFORM="armlinux"
 export OS="linux"
-export PLATFORM="aarch64"
+export PLATFORM="arm64"
 export ARCH="arm64"
 
 # --------------------------------------
