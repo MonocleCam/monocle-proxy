@@ -5,6 +5,7 @@ ENV TZ=America/New_York
 
 RUN apk update  \
 && apk  add     \
+   bash   \
    git    \
    gcc    \
    g++    \
