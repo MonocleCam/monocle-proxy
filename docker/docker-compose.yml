@@ -1,14 +1,18 @@
 version: '3'
 services:
   multilib:
-    # will build ./default/Dockerfile
+    # will build ./linux/multilib/Dockerfile
     build: linux/multilib
-    image: registry.gitlab.com/monoclecam/gateway/live555/linux:multilib2
+    image: registry.gitlab.com/monoclecam/gateway/monocle-proxy/linux:multilib
   arm:
-    # will build ./arm/Dockerfile
+    # will build ./linux/arm/Dockerfile
     build: linux/arm
-    image: registry.gitlab.com/monoclecam/gateway/live555/linux:arm2
+    image: registry.gitlab.com/monoclecam/gateway/monocle-proxy/linux:arm
   rpi:
-    # will build ./rpi/Dockerfile
+    # will build ./linux/rpi/Dockerfile
     build: linux/rpi
-    image: registry.gitlab.com/monoclecam/gateway/live555/linux:rpi2
+    image: registry.gitlab.com/monoclecam/gateway/monocle-proxy/linux:rpi
+  alpine:
+    # will build ./alpine/x64/Dockerfile
+    build: alpine/x64
+    image: registry.gitlab.com/monoclecam/gateway/monocle-proxy/alpine:x64

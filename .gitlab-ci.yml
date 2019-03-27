@@ -25,11 +25,25 @@ stages:
   - production
 
 # BUILD FOR:
+#  - ALPINE (LINUX) on INTEL x86-64 (64-bit)
+# (perform build on custom tagged project docker image based on x86_64 Alpine Linux)
+alpine:x64:
+  stage: build
+  image: registry.gitlab.com/monoclecam/gateway/monocle-proxy/alpine:x64
+  script:
+    - bin/build-alpine-x64.sh
+  tags:
+    - docker
+  artifacts:
+    paths:
+      - dist/*.tar.gz
+
+# BUILD FOR:
 #  - LINUX on INTEL x86-64 (64-bit)
 # (perform build on custom tagged project docker image that includes multilib for compiling 64-bit binaries)
 linux:x64:
   stage: build
-  image: registry.gitlab.com/monoclecam/gateway/live555/linux:multilib2
+  image: registry.gitlab.com/monoclecam/gateway/monocle-proxy/linux:multilib
   script:
     - bin/build-linux-x64.sh
   tags:
@@ -43,7 +57,7 @@ linux:x64:
 # (perform build on custom tagged project docker image that includes multilib for compiling 32-bit binaries)
 linux:x86:
   stage: build
-  image: registry.gitlab.com/monoclecam/gateway/live555/linux:multilib2
+  image: registry.gitlab.com/monoclecam/gateway/monocle-proxy/linux:multilib
   script:
     - bin/build-linux-x86.sh
   tags:
@@ -57,7 +71,7 @@ linux:x86:
 # (perform build on custom tagged project docker image that includes cross-compiling support for ARM 64-bit binaries and ARM 32-bit binaries)
 linux:armhf:
   stage: build
-  image: registry.gitlab.com/monoclecam/gateway/live555/linux:arm2
+  image: registry.gitlab.com/monoclecam/gateway/monocle-proxy/linux:arm
   script:
     - bin/build-linux-armhf.sh
   tags:
@@ -71,7 +85,7 @@ linux:armhf:
 # (perform build on custom tagged project docker image that includes cross-compiling support for ARM 64-bit binaries and ARM 32-bit binaries)
 linux:arm64:
   stage: build
-  image: registry.gitlab.com/monoclecam/gateway/live555/linux:arm2
+  image: registry.gitlab.com/monoclecam/gateway/monocle-proxy/linux:arm
   script:
     - bin/build-linux-arm64.sh
   tags:
@@ -86,7 +100,7 @@ linux:arm64:
 # (perform build on custom tagged project docker image that includes cross-compiling support for RaspberryPi 32-bit hard-float binaries)
 linux:rpi:
   stage: build
-  image: registry.gitlab.com/monoclecam/gateway/live555/linux:rpi2
+  image: registry.gitlab.com/monoclecam/gateway/monocle-proxy/linux:rpi
   script:
     - bin/build-linux-rpi.sh
   tags:
