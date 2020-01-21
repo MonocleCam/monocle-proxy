@@ -15,7 +15,7 @@
 # --------------------------------------
 # DEFINE BUILD ENVIRONMENT VARIABLES
 # --------------------------------------
-export LIVE555_BUILD_PLATFORM="armlinux"
+export LIVE555_BUILD_PLATFORM="linux"
 export OS="alpine"
 export PLATFORM="armhf"
 export ARCH="arm"
