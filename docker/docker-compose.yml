@@ -12,7 +12,23 @@ services:
     # will build ./linux/rpi/Dockerfile
     build: linux/rpi
     image: registry.gitlab.com/monoclecam/gateway/monocle-proxy/linux:rpi
-  alpine:
+  alpine-x86:
+    # will build ./alpine/x86/Dockerfile
+    build: alpine/x86
+    image: registry.gitlab.com/monoclecam/gateway/monocle-proxy/alpine:x86
+  alpine-x64:
     # will build ./alpine/x64/Dockerfile
     build: alpine/x64
     image: registry.gitlab.com/monoclecam/gateway/monocle-proxy/alpine:x64
+  alpine-armvhf:
+    # will build ./alpine/armvhf/Dockerfile
+    build: alpine/armhf
+    image: registry.gitlab.com/monoclecam/gateway/monocle-proxy/alpine:armhf
+  alpine-armv7:
+    # will build ./alpine/armv7/Dockerfile
+    build: alpine/armv7
+    image: registry.gitlab.com/monoclecam/gateway/monocle-proxy/alpine:armv7
+  alpine-arm64:
+    # will build ./alpine/arm64/Dockerfile
+    build: alpine/arm64
+    image: registry.gitlab.com/monoclecam/gateway/monocle-proxy/alpine:arm64

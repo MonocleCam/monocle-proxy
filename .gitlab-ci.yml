@@ -39,6 +39,20 @@ alpine:x64:
       - dist/*.tar.gz
 
 # BUILD FOR:
+#  - ALPINE (LINUX) on INTEL x86 (32-bit)
+# (perform build on custom tagged project docker image based on x86 Alpine Linux)
+alpine:x86:
+  stage: build
+  image: registry.gitlab.com/monoclecam/gateway/monocle-proxy/alpine:x86
+  script:
+    - bin/build-alpine-x86.sh
+  tags:
+    - docker
+  artifacts:
+    paths:
+      - dist/*.tar.gz
+
+# BUILD FOR:
 #  - LINUX on INTEL x86-64 (64-bit)
 # (perform build on custom tagged project docker image that includes multilib for compiling 64-bit binaries)
 linux:x64:
