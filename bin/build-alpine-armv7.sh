@@ -6,7 +6,7 @@
 #             |_|  |_|\___/|_|\_|\___/ \___|____|___|
 #
 #  -------------------------------------------------------------------
-#           MONOCLE PROXY BUILD SCRIPT :: LINUX (x64)
+#           MONOCLE PROXY BUILD SCRIPT :: ALPINE LINUX (armv7)
 #         COPYRIGHT SHADEBLUE, LLC @ 2018, ALL RIGHTS RESERVED
 #  -------------------------------------------------------------------
 #
@@ -17,7 +17,7 @@
 # --------------------------------------
 export LIVE555_BUILD_PLATFORM="armlinux"
 export OS="alpine"
-export PLATFORM="armhf"
+export PLATFORM="armv7"
 export ARCH="arm"
 
 

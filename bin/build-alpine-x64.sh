@@ -6,7 +6,7 @@
 #             |_|  |_|\___/|_|\_|\___/ \___|____|___|
 #
 #  -------------------------------------------------------------------
-#           MONOCLE PROXY BUILD SCRIPT :: LINUX (x64)
+#           MONOCLE PROXY BUILD SCRIPT :: ALPINE LINUX (x64)
 #         COPYRIGHT SHADEBLUE, LLC @ 2018, ALL RIGHTS RESERVED
 #  -------------------------------------------------------------------
 #

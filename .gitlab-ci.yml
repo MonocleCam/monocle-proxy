@@ -53,6 +53,48 @@ alpine:x86:
       - dist/*.tar.gz
 
 # BUILD FOR:
+#  - ALPINE (LINUX) on ARM v6 (32-bit) Hard-Float
+# (perform build on custom tagged project docker image based on armhf Alpine Linux)
+alpine:armhf:
+  stage: build
+  image: registry.gitlab.com/monoclecam/gateway/monocle-proxy/alpine:armhf
+  script:
+    - bin/build-alpine-armhf.sh
+  tags:
+    - armhf
+  artifacts:
+    paths:
+      - dist/*.tar.gz
+
+# BUILD FOR:
+#  - ALPINE (LINUX) on ARM v7 (32-bit)
+# (perform build on custom tagged project docker image based on armv7 Alpine Linux)
+alpine:armv7:
+  stage: build
+  image: registry.gitlab.com/monoclecam/gateway/monocle-proxy/alpine:armv7
+  script:
+    - bin/build-alpine-armv7.sh
+  tags:
+    - armv7
+  artifacts:
+    paths:
+      - dist/*.tar.gz
+
+# BUILD FOR:
+#  - ALPINE (LINUX) on ARM v8 (64-bit)
+# (perform build on custom tagged project docker image based on arm64 Alpine Linux)
+alpine:arm64:
+  stage: build
+  image: registry.gitlab.com/monoclecam/gateway/monocle-proxy/alpine:arm64
+  script:
+    - bin/build-alpine-arm64.sh
+  tags:
+    - aarch64
+  artifacts:
+    paths:
+      - dist/*.tar.gz
+
+# BUILD FOR:
 #  - LINUX on INTEL x86-64 (64-bit)
 # (perform build on custom tagged project docker image that includes multilib for compiling 64-bit binaries)
 linux:x64:
