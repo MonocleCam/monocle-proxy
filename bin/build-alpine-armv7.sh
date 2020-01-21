@@ -23,7 +23,8 @@ export ARCH="arm"
 # --------------------------------------
 # DEFINE CROSS-COMPILER PREFIX
 # --------------------------------------
-export CROSS_COMPILE="armv7-alpine-linux-musleabihf-"
+#export CROSS_COMPILE="armv7-alpine-linux-musleabihf-"
+export CROSS_COMPILE=""
 
 # --------------------------------------
 # EXECUTE COMMON BUILD SCRIPT

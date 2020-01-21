@@ -23,7 +23,8 @@ export ARCH="arm64"
 # --------------------------------------
 # DEFINE CROSS-COMPILER PREFIX
 # --------------------------------------
-export CROSS_COMPILE="aarch64-alpine-linux-musl-"
+#export CROSS_COMPILE="aarch64-alpine-linux-musl-"
+export CROSS_COMPILE=""
 
 # --------------------------------------
 # EXECUTE COMMON BUILD SCRIPT
