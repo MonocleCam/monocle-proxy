@@ -15,11 +15,15 @@
 # --------------------------------------
 # DEFINE BUILD ENVIRONMENT VARIABLES
 # --------------------------------------
-export LIVE555_BUILD_PLATFORM="linux"
+export LIVE555_BUILD_PLATFORM="armlinux"
 export OS="alpine"
-export PLATFORM="armhf"
+export PLATFORM="armv6"
 export ARCH="arm"
 
+# --------------------------------------
+# DEFINE CROSS-COMPILER PREFIX
+# --------------------------------------
+export CROSS_COMPILE="armv6-alpine-linux-musleabihf-"
 
 # --------------------------------------
 # EXECUTE COMMON BUILD SCRIPT

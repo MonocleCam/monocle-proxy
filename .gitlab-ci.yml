@@ -55,11 +55,11 @@ alpine:x86:
 # BUILD FOR:
 #  - ALPINE (LINUX) on ARM v6 (32-bit) Hard-Float
 # (perform build on custom tagged project docker image based on armhf Alpine Linux)
-alpine:armhf:
+alpine:armv6:
   stage: build
-  image: registry.gitlab.com/monoclecam/gateway/monocle-proxy/alpine:armhf
+  image: registry.gitlab.com/monoclecam/gateway/monocle-proxy/alpine:armv6
   script:
-    - bin/build-alpine-armhf.sh
+    - bin/build-alpine-armv6.sh
   tags:
     - armhf
   artifacts:
@@ -67,7 +67,7 @@ alpine:armhf:
       - dist/*.tar.gz
 
 # BUILD FOR:
-#  - ALPINE (LINUX) on ARM v7 (32-bit)
+#  - ALPINE (LINUX) on ARM v7 (32-bit) Hard-Float
 # (perform build on custom tagged project docker image based on armv7 Alpine Linux)
 alpine:armv7:
   stage: build
