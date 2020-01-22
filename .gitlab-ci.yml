@@ -61,8 +61,7 @@ alpine:armv6:
   script:
     - bin/build-alpine-armv6.sh
   tags:
-    - docker
-    - armhf
+    - docker-arm
   artifacts:
     paths:
       - dist/*.tar.gz
@@ -76,8 +75,7 @@ alpine:armv7:
   script:
     - bin/build-alpine-armv7.sh
   tags:
-    - docker
-    - armhf
+    - docker-arm
   artifacts:
     paths:
       - dist/*.tar.gz
@@ -91,8 +89,7 @@ alpine:arm64:
   script:
     - bin/build-alpine-arm64.sh
   tags:
-    - docker
-    - aarch64
+    - docker-arm
   artifacts:
     paths:
       - dist/*.tar.gz
