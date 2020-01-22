@@ -134,7 +134,7 @@ linux:armhf:
   script:
     - bin/build-linux-armhf.sh
   tags:
-    - armhf
+    - docker
   artifacts:
     paths:
       - dist/*.tar.gz
@@ -148,7 +148,7 @@ linux:arm64:
   script:
     - bin/build-linux-arm64.sh
   tags:
-    - aarch64
+    - docker
   artifacts:
     paths:
       - dist/*.tar.gz
